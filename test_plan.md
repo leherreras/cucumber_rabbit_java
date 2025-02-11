@@ -78,6 +78,36 @@ Validate that the system meets the following conditions:
 - **Expected Result**:
   - The system should respond that the customer is "not available".
 
+### 4. Message Format Validation for Queue
+
+#### Negative Case: Malformed Message
+- **Description**: Verify that the system correctly handles malformed messages.
+- **Preconditions**:
+  - The customer "JohnDoe" is registered in the database.
+- **Steps**:
+  1. Send a malformed message to the queue.
+- **Expected Result**:
+  - The message should be rejected by the queue.
+
+#### Negative Case: Empty Message
+- **Description**: Verify that the system correctly handles empty messages.
+- **Preconditions**:
+  - The customer "JaneDoe" is registered in the database.
+- **Steps**:
+  1. Send an empty message to the queue.
+- **Expected Result**:
+  - The message should be rejected by the queue.
+
+#### Negative Case: Missing Required Fields
+- **Description**: Verify that the system correctly handles messages with missing required fields.
+- **Preconditions**:
+  - The customer "JaneDoe" is registered in the database.
+  - Required fields are defined in the message schema.
+- **Steps**:
+  1. Send a message with missing required fields to the queue.
+- **Expected Result**:
+  - The message should be rejected by the queue.
+
 ---
 
 ## Additional Considerations
@@ -89,7 +119,7 @@ Validate that the system meets the following conditions:
    - Use an in-memory database (such as H2) for testing, configured in the `test` profile.
 
 3. **Reports**:
-   - Generate test reports in HTML or JSON format to facilitate result review.
+   - Generate test reports in HTML and JSON format to facilitate result review.
 
 4. **Test Independence**:
    - Each scenario should be independent and not depend on the state of other scenarios.
