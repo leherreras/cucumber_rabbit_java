@@ -6,18 +6,17 @@ import com.appgate.customer.dto.CustomerRequest;
 import com.appgate.customer.dto.CustomerResponse;
 import com.appgate.customer.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-
 import org.junit.jupiter.api.Assertions;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes = {Application.class})
@@ -50,7 +49,7 @@ public class CustomerE2ESteps {
     public void setup() {
         // Clean the database
         customerRepository.deleteAll();
-        
+
         // Purge the queues
         rabbitTemplate.execute(channel -> {
             channel.queuePurge(inputQueue);
@@ -64,7 +63,7 @@ public class CustomerE2ESteps {
     @Given("a customer with name {string} does not exist in the system")
     public void a_customer_does_not_exist_in_the_system(String name) {
         this.customerName = name;
-       System.out.println("Customer " + name + " does not exist in the system (database is empty).");
+        System.out.println("Customer " + name + " does not exist in the system (database is empty).");
     }
 
     @Given("a customer with name {string} exists in the system")

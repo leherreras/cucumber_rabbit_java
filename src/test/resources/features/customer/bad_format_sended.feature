@@ -1,6 +1,6 @@
 Feature: Send bad format to queue
 
-  Scenario: Create the customer but is sended bad format in message to queue
+  Scenario: Create the customer but is sent bad format in message to queue
     Given a customer with name "JohnDoe" exists in the system
     When I send a malformed message to the queue
     Then the message should be rejected by the queue

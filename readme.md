@@ -21,9 +21,9 @@ The solution is based in request reply using rabbitMQ:
 ### Run Locally
 
 - Execute the docker compose command for start up the components
-    - The path base is: /.devcontainer/docker-compose.yml
+    - The path base is: /.devcontainer/
         ```
-        > docker-compose up
+        > docker compose up postgres rabbitmq -d
         ```
 
 - The docker-compose should create two containers:
@@ -93,3 +93,20 @@ result:
     | 4|CUSTOMER4|false |false             |
     +--+---------+------+------------------+
 ```
+
+
+## Deliverables
+
+### Test Documentation
+- Test Plan: `test_plan.md`
+- Test Report & Results: `target/cucumber-reports/cucumber.html`
+
+### Test Implementation
+- Gherkin Scenarios: `src/test/resources/features/customer`
+- Test Automation Project: `src/test/java/com/appgate/customer/cucumber/steps/CustomerE2ESteps.java`
+- Test Environment Setup: This file
+
+## Extras
+### CI/CD
+- Automated Test Pipeline
+- Pipeline Documentation & Evidence: `pipeline.md`
