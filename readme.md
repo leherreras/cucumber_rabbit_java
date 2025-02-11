@@ -18,10 +18,10 @@ The solution is based in request reply using rabbitMQ:
 - Maven 3.9.+
 - Docker & Docker Componse
 
-### Run
+### Run Locally
 
 - Execute the docker compose command for start up the components
-    - The path base is: /deployment/docker-compose.yml
+    - The path base is: /.devcontainer/docker-compose.yml
         ```
         > docker-compose up
         ```
@@ -35,6 +35,30 @@ The solution is based in request reply using rabbitMQ:
     > mvn clean package
     > java -jar target/customer-0.0.1-SNAPSHOT.jar
     ```
+
+### Run with DevContainer
+
+#### Visual Studio Code
+1. Install the "Dev Containers" extension in VS Code
+2. Open the project folder in VS Code
+3. Click the green button in the bottom-left corner or press Ctrl/Cmd + Shift + P and select "Dev Containers: Reopen in Container"
+4. Wait for the container to build and start
+5. The project will be ready to run inside the container
+
+#### IntelliJ IDEA
+1. Install the "Remote Development" plugin
+2. Go to File > Open
+3. Navigate to and select the project folder
+4. Click "Trust Project"
+5. Select "Dev Container" from the popup that appears
+6. Wait for the container to build and start
+7. The project will be ready to run inside the container
+
+The devcontainer will automatically:
+- Set up Java 17
+- Install Maven
+- Configure required environment variables
+- Start PostgreSQL and RabbitMQ containers
 
 ### Test
 

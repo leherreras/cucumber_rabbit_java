@@ -1,0 +1,51 @@
+volumes:
+  postgres-data:
+
+services:
+  app:
+    container_name: javadev
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+        POSTGRES_HOSTNAME: ${POSTGRES_HOST}
+        RABBITMQ_DEFAULT_HOST: ${RABBITMQ_DEFAULT_HOST}
+
+    volumes:
+      - ../..:/workspaces:cached
+      
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:${POSTGRES_HOST}
+
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmqjava
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - ./rabbitmq/init.sh:/etc/rabbitmq/init.sh
+    command: >
+      /bin/bash -c "rabbitmq-server &
+      sleep 10 &&
+      bash /etc/rabbitmq/init.sh &&
+      tail -f /dev/null"
+
+  postgres:
+    image: postgres:14
+    container_name: postgresdbjava
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
