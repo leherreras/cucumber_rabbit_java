@@ -61,7 +61,13 @@ The devcontainer will automatically:
 - Start PostgreSQL and RabbitMQ containers
 
 ### Test
+#### With IDE BDD test
+Open the file
+`src/test/java/com/appgate/customer/cucumber/runner/CucumberRunnerTest.java`  
+Before `public class CucumberRunnerTest {` click in arrow  
+click in Run or Debug
 
+#### Manually
 For test the service, go to http://localhost:15672/#/queues, select the *testing.customer.query.is-customer-available* queue, and publish the follow message:
 ```
 {
@@ -108,5 +114,48 @@ result:
 
 ## Extras
 ### CI/CD
-- Automated Test Pipeline
+- Automated Test Pipeline: `.github/workflows/e2e-tests.yml`
 - Pipeline Documentation & Evidence: `pipeline.md`
+
+## Code Improvements
+
+### Logging
+- Replace usage of `System.out.println` with Spring's built-in logging framework
+- This allows proper configuration of log levels and message formatting
+- Enables centralized logging and better monitoring capabilities
+
+### Configuration Management 
+- Implement environment variables for properties file configuration
+- Improves security by keeping sensitive data out of code
+- Enhances scalability and deployment flexibility across environments
+
+### Dependency Management
+- Review and optimize dependencies in `pom.xml`
+- Avoid duplicate transitive dependencies
+- Ensure compatible versions are used
+- Remove unused dependencies to reduce build size
+
+### Error Handling
+- Improve error handling for malformed messages
+- Current try-catch implementation silently consumes errors
+- Should throw appropriate exceptions to trigger message requeuing
+- Add proper error logging and monitoring
+
+### Message Retry Strategies
+1. Dead Letter Pattern
+   - Configure dead letter queues for failed messages
+   - Preserve messages that cannot be processed
+   - Enable manual review and reprocessing
+
+2. Retry Mechanism
+   - Implement retry counter in message headers
+   - Set maximum retry attempts
+   - Add exponential backoff between retries
+   - Track retry history for debugging
+
+3. Selective Retry Logic
+   - Define retriable vs non-retriable errors
+   - Only retry transient failures (e.g. DB connectivity)
+   - Fail fast for permanent errors (e.g. invalid data)
+   - Configure per-error retry policies
+
